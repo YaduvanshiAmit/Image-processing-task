@@ -3,8 +3,8 @@ import numpy as np
 import imutils
 from task import getContours, preProcessing
 
-small_image = cv.imread('threat_images/BAGGAGE_20170523_094231_80428_B.jpg')
-large_image = cv.imread('background/S0210209058_20180811232942_L-1_1.jpg')
+small_image = cv.imread('threat_images/BAGGAGE_20170524_075554_80428_B.jpg')
+large_image = cv.imread('background/BAGGAGE_20180811_175328_83216_A_1.jpg')
 
 def Processing(image): 
     imgGray = cv.cvtColor(image,cv.COLOR_BGR2GRAY)
@@ -76,10 +76,10 @@ def mask (simage , limage):
     kernel = cv.getStructuringElement(cv.MORPH_RECT, (2,4))
     mask = cv.morphologyEx(mask, cv.MORPH_CLOSE, kernel)
     bg = cv.bitwise_or(limage,limage,mask=mask)
-    cv.imshow('bg',bg)
+    
     mask_inv = cv.bitwise_not(mask) 
     fg = cv.bitwise_or(simage,simage, mask=mask_inv)
-    final_roi = cv.addWeighted(bg,0.7,fg,0.3,0)
+    final_roi = cv.addWeighted(bg,0.85,fg,0.15,1)          
 
     return final_roi
 
@@ -88,12 +88,12 @@ def mask (simage , limage):
 
 imgThres = Processing(small_image)
 crop_img = getcon(imgThres)
-rotate_image = rotate_image(crop_img,90)  
+rotate_image = rotate_image(crop_img,45)  
 roi , resized = roi(rotate_image,large_image)
 small_img = mask(resized,roi)
 large_image[y_offset : y_offset + small_img.shape[0], x_offset : x_offset + small_img.shape[1]]= small_img
 cv.imshow('large',large_image)
 
-
+cv.imwrite('output_images/4.jpg',large_image)
 
 cv.waitKey(0)

@@ -115,6 +115,6 @@ small_img = mask(resized,roi)
 large_image[y_offset : y_offset + small_img.shape[0], x_offset : x_offset + small_img.shape[1]]= small_img
 cv.imshow('large',large_image)
 
-
+cv.imwrite('output_images/1.jpg',large_image)
 cv.waitKey(0)
 
