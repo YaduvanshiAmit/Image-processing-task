@@ -1,7 +1,6 @@
 import cv2 as cv
 import numpy as np
 import imutils
-from task import getContours, preProcessing
 
 small_image = cv.imread('threat_images/BAGGAGE_20170524_075554_80428_B.jpg')
 large_image = cv.imread('background/BAGGAGE_20180811_175328_83216_A_1.jpg')
@@ -65,8 +64,6 @@ def roi (simage,limage):
     y_offset = int(conimage.shape[0]/2)
     x_end = x_offset + resized.shape[1]
     y_end = y_offset + resized.shape[0]
-    
-
     roi = limage[y_offset:y_end,x_offset:x_end]
     return roi , resized
 
